@@ -9,6 +9,9 @@
 #IDEA
 .idea
 
+#Gradle
+.gradle
+
 # Package Files #
 *.jar
 *.war
@@ -16,5 +19,4 @@
 *.zip
 *.tar.gz
 *.rar
-
 

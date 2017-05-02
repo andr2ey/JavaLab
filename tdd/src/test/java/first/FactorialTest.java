@@ -13,7 +13,7 @@ class FactorialTest {
 
     @Test
     void whenComputeNegativeThenThrowArithmeticException() {
-        assertThrows(ArithmeticException.class, () -> Factorial.compute(-1));
+        assertThrows(IllegalArgumentException.class, () -> Factorial.compute(-1));
     }
 
     @Test

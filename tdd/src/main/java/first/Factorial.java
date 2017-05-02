@@ -4,7 +4,7 @@ public class Factorial {
 
     public static int compute(int n) {
         if (n < 0)
-            throw new ArithmeticException();
+            throw new IllegalArgumentException();
         return factorial(n);
     }
 
@@ -15,6 +15,6 @@ public class Factorial {
     }
 
     public static void main(String[] args) {
-        System.out.printf("Nothing");
+
     }
 }
