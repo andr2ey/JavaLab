@@ -1,35 +1,32 @@
 package first;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ObjectArrayArguments;
 
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-@RunWith(JUnitPlatform.class)
+
 class FactorialTest {
 
     @Test
     void whenComputeNegativeThenThrowArithmeticException() {
-        assertThrows(IllegalArgumentException.class, () -> Factorial.compute(-1));
+        assertThrows(IllegalArgumentException.class, () -> first.Factorial.compute(-1));
     }
 
-    @Test
-    void whenComputeZeroThenOne() {
-        assertEquals(Factorial.compute(0), 1);
+    @ParameterizedTest
+    @MethodSource(names = "doubleIntsProvider")
+    void whenComputeOfInputThenResult(int input, int result) {
+        assertEquals(Factorial.compute(input), result);
     }
 
-    @Test
-    void whenComputeOneThenOne() {
-        assertEquals(Factorial.compute(1), 1);
+    static Stream<Arguments> doubleIntsProvider() {
+        return Stream.of(ObjectArrayArguments.create(0, 1),
+                ObjectArrayArguments.create(1, 1),
+                ObjectArrayArguments.create(3, 6));
     }
-
-    @Test
-    void whenComputeFiveThenNinetySix() {
-        assertEquals(Factorial.compute(5), 120);
-    }
-
-
 }

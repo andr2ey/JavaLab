@@ -2,55 +2,76 @@ package second;
 
 import org.junit.jupiter.api.Test;
 
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/**
- * Created on 02.05.2017.
- */
-@RunWith(JUnitPlatform.class)
-public class RangeTest {
+class RangeTest {
 
-    private Range range = new Range(2, 3);
+    private static final long START = 2;
+    private static final long END = 3;
+    private Range current = new Range(START, END);
 
     @Test
-    public void isBefore() throws Exception {
-        assertTrue(range.isBefore(new Range(4, 5)));
+    void whenCurrentIsBeforeRangeFourAndFiveThenTrue() throws Exception {
+        assertTrue(current.isBefore(new Range(4, 5)));
     }
 
     @Test
-    public void isAfter() throws Exception {
-        assertTrue(range.isAfter(new Range(0, 1)));
+    void whenCurrentIsAfterRangeZeroAndOneThenTrue() throws Exception {
+        assertTrue(current.isAfter(new Range(0, 1)));
     }
 
     @Test
-    public void isConcurrent() throws Exception {
+    void whenCurrentIsConcurrentWithRangeZeroAndTwoThenTrue() throws Exception {
+        assertTrue(current.isConcurrent(new Range(0, 2)));
     }
 
     @Test
-    public void getLowerBound() throws Exception {
+    void whenGetCurrentLowerBoundaryThenTwo() throws Exception {
+        assertThat(current.getLowerBound(), is(START));
     }
 
-    public long getUpperBound() {
-        return -1;
+    @Test
+    void whenGetCurrentUpperBoundaryThenThree() throws Exception {
+        assertThat(current.getUpperBound(), is(END));
     }
 
-    public boolean contains(long value) {
-        return false;
+    @Test
+    void whenCurrentContainThreeThenTrue() {
+        assertTrue(current.contains(END));
     }
 
-    public List<Long> asList() {
-        return new ArrayList<>();
+    @Test
+    void whenListOfCurrentContainAllValuesThenTrue() {
+        List<Long> list = current.asList();
+        List<Long> currentList = list();
+        assertAll(()-> assertTrue(list.size() == currentList.size()),
+                ()-> list.containsAll(currentList));
     }
 
-    public Iterator<Long> asIterator() {
-        return asList().iterator();
+    @Test
+    void asIterator() {
+        List<Long> currentList = list();
+        Iterator<Long> iterator = current.asIterator();
+        for (long value : currentList) {
+            assertTrue(value == iterator.next());
+        }
+        assertFalse(iterator.hasNext());
+    }
+
+    private List<Long> list() {
+        List<Long> currentList = new ArrayList<>();
+        for(long i = START; i <= END; i++) {
+            currentList.add(i);
+        }
+        return currentList;
     }
 
 

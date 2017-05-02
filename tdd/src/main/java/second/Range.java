@@ -9,49 +9,46 @@ import java.util.List;
  */
 public class Range {
 
-    private int start;
-    private int end;
+    private long start;
+    private long end;
 
-    public Range(int start, int end) {
-        assert start < end;
+    public Range(long start, long end) {
+        assert start < end && start >= 0 && end > 0;
         this.start = start;
         this.end = end;
     }
 
-    public int getStart() {
-        return start;
-    }
-
-    public int getEnd() {
-        return end;
-    }
-
     public boolean isBefore(Range otherRange) {
-        return end < otherRange.getStart();
+        return end < otherRange.getLowerBound();
     }
 
     public boolean isAfter(Range otherRange) {
-        return start > otherRange.getEnd();
+        return start > otherRange.getUpperBound();
     }
 
     public boolean isConcurrent(Range otherRange) {
-        return end < start;
+        return start <= otherRange.getUpperBound() && end >= otherRange.getUpperBound() ||
+                start <= otherRange.getLowerBound() && end >= otherRange.getUpperBound();
     }
 
     public long getLowerBound(){
-        return -1;
+        return start;
     }
 
     public long getUpperBound() {
-        return -1;
+        return end;
     }
 
     public boolean contains(long value) {
-        return false;
+        return value <= end && value >= start;
     }
 
     public List<Long> asList() {
-        return new ArrayList<>();
+        List<Long> currentList = new ArrayList<>();
+        for(long i = start; i <= end; i++) {
+            currentList.add(i);
+        }
+        return currentList;
     }
 
     public Iterator<Long> asIterator() {
